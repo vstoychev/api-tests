@@ -1,5 +1,13 @@
 import { test, expect, APIResponse } from '@playwright/test';
 
+// Example for overriding some options for the current file
+test.use({
+  extraHTTPHeaders: {
+    'Additional-Header': 'Extra',
+    'Content-Type': 'application/json',
+  }
+});
+
 test('GetUsers_ValidPageNumber_OK', async ({ request }) => {
   const usersPageNaumber = 1;
   const response = await request.get(`./users?page=${usersPageNaumber}`);
@@ -8,7 +16,7 @@ test('GetUsers_ValidPageNumber_OK', async ({ request }) => {
   expect(response.status()).toBe(200);
 
   const responseBody = await response.json();
-  
+
   expect(responseBody['data']).toContainEqual(expect.objectContaining({
     id: 2,
     email: 'janet.weaver@reqres.in',
@@ -32,11 +40,11 @@ test('GetUsers_ValidPageNumber_OK', async ({ request }) => {
         last_name: "Wong",
       },
       {
-      avatar: "https://reqres.in/img/faces/4-image.jpg",
-      email: "eve.holt@reqres.in",
-      first_name: "Eve",
-      id: 4,
-      last_name: "Holt",
+        avatar: "https://reqres.in/img/faces/4-image.jpg",
+        email: "eve.holt@reqres.in",
+        first_name: "Eve",
+        id: 4,
+        last_name: "Holt",
       },
     ]),
     support: expect.objectContaining({ text: expect.stringContaining('ReqRes') }),
