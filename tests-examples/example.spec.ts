@@ -1,4 +1,4 @@
-import { test, expect, APIResponse } from '@playwright/test';
+import { test, expect } from '@playwright/test';
 
 // Example for overriding some options for the current file
 test.use({
@@ -10,7 +10,11 @@ test.use({
 
 test('GetUsers_ValidPageNumber_OK', async ({ request }) => {
   const usersPageNaumber = 1;
-  const response = await request.get(`./users?page=${usersPageNaumber}`);
+  const response = await request.get('./users', {
+    params: {
+      'page': usersPageNaumber,
+    }
+  });
 
   expect(response.statusText()).toBe("OK");
   expect(response.status()).toBe(200);
